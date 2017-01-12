@@ -3,6 +3,7 @@
 import configparser
 import webbrowser
 from os.path import expanduser
+import os.path
 import sys
 
 from imgurpython import ImgurClient
@@ -31,10 +32,13 @@ def get_tokens_path():
 def load_tokens():
     global access_token, refresh_token
 
-    config = configparser.ConfigParser()
-    config.read(get_tokens_path())
-    access_token = config['tokens']['access_token']
-    refresh_token = config['tokens']['refresh_token']
+    if os.path.isfile(get_tokens_path()):
+        config = configparser.ConfigParser()
+
+        config.read(get_tokens_path())
+
+        access_token = config['tokens']['access_token']
+        refresh_token = config['tokens']['refresh_token']
 
 
 def set_client_tokens():
